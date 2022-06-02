@@ -19,10 +19,10 @@ streets.addTo(map);
 
 let cityData = cities;
 
-// Loop through cities array and create one marker for each city
-cityData.forEach(function(city) {
+// Loop through the cities array and create one marker for each city.
+cities.forEach(function(city) {
     console.log(city)
     L.marker(city.location)
     .bindPopup(`<strong>City: ${city.city}</strong> <hr> <strong>Population: ${city.population}</strong>`)
     .addTo(map);
-});
+   });
