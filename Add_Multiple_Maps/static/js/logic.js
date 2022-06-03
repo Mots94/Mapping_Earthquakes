@@ -33,3 +33,19 @@ let map = L.map("mapid", {
 
 L.control.layers(baseMaps).addTo(map);
 
+let airportData = "https://raw.githubusercontent.com/Mots94/Mapping_Earthquakes/Map_Multiple_GeoJSON_Points/Map_Multiple_GeoJSON_Points/majorAirports.json";
+
+d3.json(airportData).then(function(data) {
+    console.log(data);
+
+    //Create GeoJSON layer with retrieved data
+    L.geoJSON(data, {
+        onEachFeature: function(feature, layer) {
+            console.log(layer);
+            layer.bindPopup(`<h2>Airport code: ${feature.properties.faa}</h2><hr><h4>Airport name: ${feature.properties.name}</h4>`).addTo(map);
+        }
+    }).addTo(map);
+         
+});
+
+
