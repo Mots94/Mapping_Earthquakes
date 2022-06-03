@@ -23,17 +23,16 @@ let sanFranAirport =
 
 L.geoJSON(sanFranAirport, {
     //Each feature is turned into a marker on map
-    pointToLayer: function(feature, latlng) {
-        console.log(feature);
-        return L.marker(latlng)
-        .bindPopup(`<strong>${feature.properties.name}</strong><hr><h4>${feature.properties.city}, ${feature.properties.country}</h4>`)
+    onEachFeature: function(feature, layer) {
+        console.log(layer);
+        layer.bindPopup(`<h2>Airport code: ${feature.properties.faa}</h2><hr><h4>Airport name: ${feature.properties.name}</h4>`)
     }
 }).addTo(map);
 
 let streets = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
     maxZoom: 18,
-    id: 'mapbox/navigation-night-v1',
+    id: 'mapbox/outdoors-v11',
     tileSize: 512,
     zoomOffset: -1,
     accessToken: apiKey
