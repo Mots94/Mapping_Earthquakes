@@ -31,10 +31,13 @@ let earthquakes = new L.layerGroup();
 //Adding layer for tectonic plate data
 let plates = new L.layerGroup();
 
+let majorQuakes = new L.layerGroup();
+
 //Defining an overlay that can be visible at all times
 let overlays = {
     Earthquakes: earthquakes,
-    Tectonic_plates: plates
+    Tectonic_Plates: plates,
+    Major_Earthquakes: majorQuakes
 }
 
 let map = L.map("mapid", {
@@ -48,6 +51,8 @@ L.control.layers(baseMaps, overlays).addTo(map);
 let earthquake = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson";
 
 let plateData = "https://raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_boundaries.json"
+
+let majorQuakesData = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_week.geojson"
 
 
 d3.json(earthquake).then(function(data) {
@@ -85,7 +90,6 @@ d3.json(earthquake).then(function(data) {
             ];
 
         for (var i = 0; i < magnitudes.length; i++) {
-            console.log(colors[i]);
 
             div.innerHTML +=
                 "<i style='background: " + colors[i] + "'></i> " +
@@ -145,6 +149,55 @@ d3.json(plateData).then(function(data) {
     }).addTo(plates);
 
     plates.addTo(map);
+});
+
+d3.json(majorQuakesData).then(function(data) {
+    console.log(data);
+
+     //Create GeoJSON layer with retrieved data
+     L.geoJSON(data, {
+        pointToLayer: function(feature, latlng) {
+            return L.circleMarker(latlng);
+        },
+        style: styleInfo,
+        onEachFeature: function(feature, layer) {
+            layer.bindPopup(`<strong>Magnitude: ${feature.properties.mag}</strong><hr><strong>Location: ${feature.properties.place}</strong>`)
+        }
+    }).addTo(majorQuakes);
+
+    majorQuakes.addTo(map);
+
+    function styleInfo(feature) {
+        return {
+            opacity: 1,
+            fillOpacity: 1,
+            fillColor: getColor(feature.properties.mag),
+            color: "#000000",
+            radius: getRadius(feature.properties.mag),
+            stroke: true,
+            weight: 0.5
+        };
+    }
+      
+    function getRadius(magnitude) {
+        if (magnitude === 0) {
+            return 1;
+        }
+
+        return magnitude * 4;
+    }
+
+    function getColor(magnitude) {
+        if (magnitude > 6) {
+            return "#581845";
+        }
+        if (magnitude > 5) {
+            return "#900C3F";
+        }
+        if (magnitude > 1) {
+            return "#C70039";
+        }
+    }
 });
 
 
