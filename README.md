@@ -1,1 +1,6 @@
 # Mapping_Earthquakes
+
+![bs](https://github.com/Mots94/Mapping_Earthquakes/blob/main/Earthquake_Challenge/static/images/broken_street.png)
+
+## Purpose
+Earthquakes often vary in their severity, and as a result there is much data generated on these natural disasters.  Some examples include the coordinates of an earthquake's origin, the magnitude of the earthquake, nearby cities, and the date of the occurrence. In this challenge, tectonic plate data and severe magnitude earthquake data were both overlayed onto a map to display the relation of major earthquakes to the Earth's tectonic plates.  Additionally, multiple map types, such as a satellite and dark view, were included as part of the functional map to give the end user options when selecting the map view.  The final product incorporates circle markers with size and color denoting earthquake magnitude.  The markers for all earthquake data and severe earthquake data can be hidden from view using the iteractive overlay checkboxes in the top right hand corner of the browser.  The same feature can be accessed to hide and show tectonic plate lines on the map.
